@@ -7,8 +7,8 @@
 
 <h1>
   <%= @article.title %>
-  <span><%= link_to 'Edit', edit_article_path %></span>
-  <%= link_to "Delete",
+  <span><%= link_to ('<i class="fa-solid fa-pencil fa-2xs"></i>').html_safe, edit_article_path %></span>
+  <%= link_to ('<i class="fa-regular fa-trash-can fa-2xs"></i>').html_safe,
     article_path(@article),
     data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
   %>
