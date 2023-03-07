@@ -15,7 +15,7 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @article.save
 
-    redirect_to article_path(@article), status: 201
+    redirect_to article_path(@article), alert: "Article was successfully created."
   end
 
   def edit
@@ -26,14 +26,14 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
     @article.update(article_params)
 
-    redirect_to article_path(@article), status: 202
+    redirect_to article_path(@article), alert: "Article was successfully updated."
   end
 
   def destroy
     @article = Article.find(params[:id])
     @article.destroy
 
-    redirect_to articles_path, status: :see_other
+    redirect_to articles_path, status: :see_other, alert: "Article was successfully destroyed."
   end
 
   private
