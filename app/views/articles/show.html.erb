@@ -7,7 +7,11 @@
 
 <h1>
   <%= @article.title %>
-  <span><%= link_to 'edit', edit_article_path %></span>
+  <span><%= link_to 'Edit', edit_article_path %></span>
+  <%= link_to "Delete",
+    article_path(@article),
+    data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+  %>
 </h1>
 
 <hr>
