@@ -8,6 +8,7 @@ import {
 	BackgroundImageRight,
 	FooterContainer,
 	FooterLink,
+	GenerateQuoteButton,
 	GradientBackgroundContainer,
 	QuoteGeneratorContainer,
 	QuoteGeneratorInnerContainer,

@@ -104,3 +104,31 @@ export const QuoteGeneratorSubtitle = styled.div`
 		font-size: 25px;
 	}
 `;
+
+export const GenerateQuoteButton = styled.div`
+	height: 100px;
+	width: 300px;
+	border: 2px solid darkgrey;
+	border-radius: 20px;
+
+	margin-top: 20px;
+	position: relative;
+	transition: 0.2s all ease-in-out;
+	cursor: pointer;
+	top: 20px;
+	margin: auto;
+	transform-origin: center;
+
+	background: rgba(0, 0, 70, 0.3);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	&:hover {
+		filter: brightness(3);
+		transition: 0.2s all ease-in-out;
+		transform: scale(1.1);
+		transform-origin: center;
+	}
+`;
