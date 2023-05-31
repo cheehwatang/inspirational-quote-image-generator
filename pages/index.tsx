@@ -11,6 +11,7 @@ import {
 	GradientBackgroundContainer,
 	QuoteGeneratorContainer,
 	QuoteGeneratorInnerContainer,
+	QuoteGeneratorSubtitle,
 	QuoteGeneratorTitle,
 } from "@/components/QuoteGenerator/QuoteGeneratorElements";
 

@@ -91,3 +91,16 @@ export const QuoteGeneratorTitle = styled.div`
 		font-size: 30px;
 	}
 `;
+
+export const QuoteGeneratorSubtitle = styled.div`
+	color: white;
+	font-family: "Caveat", cursive;
+	font-size: 35px;
+	position: relative;
+	width: 100%;
+	text-align: center;
+	padding: 0px 20px;
+	@media only screen and (max-width: 600px) {
+		font-size: 25px;
+	}
+`;
