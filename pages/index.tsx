@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { API } from "aws-amplify";
+import { quotesQueryName } from "@/src/graphql/queries";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 import Head from "next/head";
 
@@ -21,8 +24,62 @@ import {
 import FlowerLeft from "@/assets/FlowerLeft.png";
 import FlowerRight from "@/assets/FlowerRight.png";
 
+// Interface for DynamoDB object
+interface UpdateQuoteInfoData {
+	id: string;
+	queryName: string;
+	quotesGenerated: number;
+	createdAt: string;
+	updatedAt: string;
+}
+
+// Type-guard for fetch function
+const isGraphQLResultForquotesQueryName = (
+	response: any
+): response is GraphQLResult<{
+	quotesQueryName: {
+		items: [UpdateQuoteInfoData];
+	};
+}> => {
+	return (
+		response.data &&
+		response.data.quotesQueryName &&
+		response.data.quotesQueryName.items
+	);
+};
+
 export default function Home() {
-	const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+	const [numberOfQuotes, setNumberOfQuotes] = useState<Number>(0);
+
+	// Function to fetch DynamoDB object
+	const updateQuoteInfo = async () => {
+		try {
+			const response = await API.graphql<UpdateQuoteInfoData>({
+				query: quotesQueryName,
+				authMode: "AWS_IAM",
+				variables: {
+					queryName: "LIVE",
+				},
+			});
+			if (!isGraphQLResultForquotesQueryName(response)) {
+				throw new Error("Unexpected response from API.graphql");
+			}
+
+			if (!response.data) {
+				throw new Error("Response data is undefined");
+			}
+
+			const receivedNumberOfQuotes =
+				response.data.quotesQueryName.items[0].quotesGenerated;
+			setNumberOfQuotes(receivedNumberOfQuotes);
+		} catch (error) {
+			console.log("error getting quote data", error);
+		}
+	};
+
+	useEffect(() => {
+		updateQuoteInfo();
+	}, []);
 
 	return (
 		<>
@@ -56,9 +113,7 @@ export default function Home() {
 						</QuoteGeneratorSubtitle>
 
 						<GenerateQuoteButton>
-							<GenerateQuoteButtonText onClick={null}>
-								Make a Quote
-							</GenerateQuoteButtonText>
+							<GenerateQuoteButtonText>Make a Quote</GenerateQuoteButtonText>
 						</GenerateQuoteButton>
 					</QuoteGeneratorInnerContainer>
 				</QuoteGeneratorContainer>
