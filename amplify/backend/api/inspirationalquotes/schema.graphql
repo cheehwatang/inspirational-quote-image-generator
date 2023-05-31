@@ -9,9 +9,8 @@ type Query {
 		@function(name: "inspirationalquoteLambda-${env}")
 }
 
-type QuoteAppData
-	@model
-	# @auth(rules: [{ allow: public, provider: iam, operations: [read] }]) {
+type QuoteAppData @model {
+	# @auth(rules: [{ allow: public, provider: iam, operations: [read] }])
 	id: ID!
 	queryName: String!
 		@index(name: "QuotesQueryName", queryField: "quotesQueryName")
