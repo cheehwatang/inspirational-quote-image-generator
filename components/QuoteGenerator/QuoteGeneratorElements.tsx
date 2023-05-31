@@ -24,15 +24,15 @@ export const GradientBackgroundContainer = styled.div`
 export const BackgroundImageLeft = styled(Image)`
 	position: fixed;
 	z-index: 1;
-	left: 0;
-	top: 0;
+	left: 30px;
+	top: 50px;
 `;
 
 export const BackgroundImageRight = styled(Image)`
 	position: fixed;
 	z-index: 1;
-	right: 0;
-	bottom: 0;
+	right: 30px;
+	bottom: 50px;
 `;
 
 export const FooterContainer = styled.div`
@@ -87,7 +87,7 @@ export const QuoteGeneratorTitle = styled.div`
 	color: white;
 	padding: 0px 20px;
 	position: relative;
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 800px) {
 		font-size: 30px;
 	}
 `;
@@ -100,7 +100,7 @@ export const QuoteGeneratorSubtitle = styled.div`
 	width: 100%;
 	text-align: center;
 	padding: 0px 20px;
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 800px) {
 		font-size: 25px;
 	}
 `;
