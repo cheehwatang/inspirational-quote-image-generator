@@ -9,6 +9,7 @@ import {
 	FooterContainer,
 	FooterLink,
 	GradientBackgroundContainer,
+	QuoteGeneratorContainer,
 } from "@/components/QuoteGenerator/QuoteGeneratorElements";
 
 // Assets
