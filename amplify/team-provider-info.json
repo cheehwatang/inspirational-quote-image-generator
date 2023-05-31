@@ -16,7 +16,13 @@
         "inspirationalquotes58fd3fbd": {}
       },
       "function": {
-        "inspirationalquoteLambda": {}
+        "inspirationalquoteLambda": {
+          "deploymentBucketName": "amplify-inspirationalquotes-dev-202433-deployment",
+          "s3Key": "amplify-builds/inspirationalquoteLambda-543246784c735a774f7a-build.zip"
+        }
+      },
+      "api": {
+        "inspirationalquotes": {}
       }
     }
   }
