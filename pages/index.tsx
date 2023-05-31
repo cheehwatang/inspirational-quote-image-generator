@@ -9,6 +9,7 @@ import {
 	FooterContainer,
 	FooterLink,
 	GenerateQuoteButton,
+	GenerateQuoteButtonText,
 	GradientBackgroundContainer,
 	QuoteGeneratorContainer,
 	QuoteGeneratorInnerContainer,

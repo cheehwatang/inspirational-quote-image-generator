@@ -132,3 +132,15 @@ export const GenerateQuoteButton = styled.div`
 		transform-origin: center;
 	}
 `;
+
+export const GenerateQuoteButtonText = styled.div`
+	color: white;
+	font-family: "Caveat", cursive;
+	font-size: 35px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	width: 100%;
+	text-align: center;
+`;
