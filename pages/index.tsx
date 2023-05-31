@@ -1,9 +1,13 @@
+import React, { useState } from "react";
+
 import Head from "next/head";
 
 // Components
 import {
 	BackgroundImageLeft,
 	BackgroundImageRight,
+	FooterContainer,
+	FooterLink,
 	GradientBackgroundContainer,
 } from "@/components/QuoteGenerator/QuoteGeneratorElements";
 
@@ -12,6 +16,8 @@ import FlowerLeft from "@/assets/FlowerLeft.png";
 import FlowerRight from "@/assets/FlowerRight.png";
 
 export default function Home() {
+	const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+
 	return (
 		<>
 			<Head>
@@ -26,14 +32,29 @@ export default function Home() {
 			<GradientBackgroundContainer>
 				<BackgroundImageLeft
 					src={FlowerLeft}
-					height="200"
+					height="160"
 					alt="Flower Background Decorator"
 				/>
 				<BackgroundImageRight
 					src={FlowerRight}
-					height="200"
+					height="160"
 					alt="Flower Background Decorator"
 				/>
+
+				<FooterContainer>
+					<>
+						Quotes Generated: {numberOfQuotes}
+						<br />
+						Developed with ❤️ by{" "}
+						<FooterLink
+							href="https://github.com/cheehwatang"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							@cheehwatang
+						</FooterLink>
+					</>
+				</FooterContainer>
 			</GradientBackgroundContainer>
 		</>
 	);
