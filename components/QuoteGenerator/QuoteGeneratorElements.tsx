@@ -79,3 +79,15 @@ export const QuoteGeneratorInnerContainer = styled.div`
 	position: absolute;
 	width: 100%;
 `;
+
+export const QuoteGeneratorTitle = styled.div`
+	font-family: "Permanent Marker", cursive;
+	font-size: 50px;
+	text-align: center;
+	color: white;
+	padding: 0px 20px;
+	position: relative;
+	@media only screen and (max-width: 600px) {
+		font-size: 30px;
+	}
+`;
