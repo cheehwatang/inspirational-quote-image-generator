@@ -29,7 +29,35 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
+
+			{/* Background */}
 			<GradientBackgroundContainer>
+				<QuoteGeneratorContainer>
+					<QuoteGeneratorInnerContainer>
+						<QuoteGeneratorTitle>
+							Inspirational Quote Generator
+						</QuoteGeneratorTitle>
+						<QuoteGeneratorSubtitle>
+							Looking for a splash of inspiration? Generate a quote card with a
+							inspirational quote provided by{" "}
+							<FooterLink
+								href="https://zenquotes.io/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								ZenQuotes API
+							</FooterLink>
+						</QuoteGeneratorSubtitle>
+
+						<GenerateQuoteButton>
+							<GenerateQuoteButtonText onClick={null}>
+								Make a Quote
+							</GenerateQuoteButtonText>
+						</GenerateQuoteButton>
+					</QuoteGeneratorInnerContainer>
+				</QuoteGeneratorContainer>
+
+				{/* Background Images */}
 				<BackgroundImageLeft
 					src={FlowerLeft}
 					height="160"
