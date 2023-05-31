@@ -71,3 +71,11 @@ export const QuoteGeneratorContainer = styled.div`
 	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.18);
 `;
+
+export const QuoteGeneratorInnerContainer = styled.div`
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	width: 100%;
+`;
