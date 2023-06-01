@@ -1,8 +1,11 @@
 import React from "react";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import {
+	ModalCircularProgress,
 	QuoteGeneratorModalContainer,
 	QuoteGeneratorModalInnerContainer,
+	QuoteGeneratorSubtitle,
+	QuoteGeneratorTitle,
 } from "./QuoteGeneratorElements";
 
 interface QuoteGeneratorModalProps {
@@ -24,6 +27,10 @@ export const QuoteGeneratorModal = ({
 	quoteReceived,
 	setQuoteReceived,
 }: QuoteGeneratorModalProps) => {
+	const wiseDevQuote =
+		"The great thing about inspiring quotes is that they pack so much wisdom in so few words.";
+	const wiseDevQuoteAuthor = "- Chris Hughes";
+
 	return (
 		<Modal
 			id="QuoteGeneratorModal"
@@ -39,7 +46,21 @@ export const QuoteGeneratorModal = ({
 		>
 			<Fade in={open}>
 				<QuoteGeneratorModalContainer sx={style}>
-					<QuoteGeneratorModalInnerContainer></QuoteGeneratorModalInnerContainer>
+					<QuoteGeneratorModalInnerContainer>
+						{processingQuote === true && quoteReceived === null && (
+							<>
+								<ModalCircularProgress size={"8rem"} thickness={2.5} />
+								<QuoteGeneratorTitle>
+									Creating your quote...
+								</QuoteGeneratorTitle>
+								<QuoteGeneratorSubtitle style={{ marginTop: "20px" }}>
+									{wiseDevQuote}
+									<br />
+									<span style={{ fontSize: 26 }}>{wiseDevQuoteAuthor}</span>
+								</QuoteGeneratorSubtitle>
+							</>
+						)}
+					</QuoteGeneratorModalInnerContainer>
 				</QuoteGeneratorModalContainer>
 			</Fade>
 		</Modal>
