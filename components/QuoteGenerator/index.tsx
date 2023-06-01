@@ -7,6 +7,9 @@ import {
 	QuoteGeneratorSubtitle,
 	QuoteGeneratorTitle,
 } from "./QuoteGeneratorElements";
+import { ImageBlob } from "../animations/ImageBlob";
+import { ImageBlobContainer } from "../animations/AnimationElements";
+import { AnimatedDownloadButton } from "../animations/AnimatedDownloadButton";
 
 interface QuoteGeneratorModalProps {
 	open: boolean;
@@ -58,6 +61,19 @@ export const QuoteGeneratorModal = ({
 									<br />
 									<span style={{ fontSize: 26 }}>{wiseDevQuoteAuthor}</span>
 								</QuoteGeneratorSubtitle>
+							</>
+						)}
+
+						{quoteReceived !== null && (
+							<>
+								<QuoteGeneratorTitle>Download your quote!</QuoteGeneratorTitle>
+								<QuoteGeneratorSubtitle style={{ marginTop: "20px" }}>
+									See a preview:
+								</QuoteGeneratorSubtitle>
+								<ImageBlobContainer>
+									<ImageBlob />
+								</ImageBlobContainer>
+								<AnimatedDownloadButton />
 							</>
 						)}
 					</QuoteGeneratorModalInnerContainer>
