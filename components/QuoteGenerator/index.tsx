@@ -95,7 +95,7 @@ export const QuoteGeneratorModal = ({
 									See a preview:
 								</QuoteGeneratorSubtitle>
 								<ImageBlobContainer>
-									<ImageBlob quoteReceived={quoteReceived} blobUrl={blobUrl} />
+									<ImageBlob blobUrl={blobUrl} />
 								</ImageBlobContainer>
 								<AnimatedDownloadButton handleDownload={handleDownload} />
 							</>
