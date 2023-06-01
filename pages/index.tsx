@@ -19,6 +19,7 @@ import {
 	QuoteGeneratorSubtitle,
 	QuoteGeneratorTitle,
 } from "@/components/QuoteGenerator/QuoteGeneratorElements";
+import { QuoteGeneratorModal } from "@/components/QuoteGenerator";
 
 // Assets
 import FlowerLeft from "@/assets/FlowerLeft.png";
@@ -49,7 +50,10 @@ const isGraphQLResultForquotesQueryName = (
 };
 
 export default function Home() {
-	const [numberOfQuotes, setNumberOfQuotes] = useState<Number>(0);
+	const [numberOfQuotes, setNumberOfQuotes] = useState(0);
+	const [openGenerator, setOpenGenerator] = useState(false);
+	const [processingQuote, setProcessingQuote] = useState(false);
+	const [quoteReceived, setQuoteReceived] = useState<String | null>(null);
 
 	// Function to fetch DynamoDB object
 	const updateQuoteInfo = async () => {
@@ -81,6 +85,15 @@ export default function Home() {
 		updateQuoteInfo();
 	}, []);
 
+	const handleCloseGenerator = () => {
+		setOpenGenerator(false);
+	};
+
+	const handleOpenGenerator = async (event: React.SyntheticEvent) => {
+		event.preventDefault();
+		setOpenGenerator(true);
+	};
+
 	return (
 		<>
 			<Head>
@@ -95,6 +108,15 @@ export default function Home() {
 
 			{/* Background */}
 			<GradientBackgroundContainer>
+				<QuoteGeneratorModal
+					open={openGenerator}
+					close={handleCloseGenerator}
+					processingQuote={processingQuote}
+					setProcessingQuote={setProcessingQuote}
+					quoteReceived={quoteReceived}
+					setQuoteReceived={setQuoteReceived}
+				></QuoteGeneratorModal>
+
 				<QuoteGeneratorContainer>
 					<QuoteGeneratorInnerContainer>
 						<QuoteGeneratorTitle>
@@ -113,7 +135,9 @@ export default function Home() {
 						</QuoteGeneratorSubtitle>
 
 						<GenerateQuoteButton>
-							<GenerateQuoteButtonText>Make a Quote</GenerateQuoteButtonText>
+							<GenerateQuoteButtonText onClick={handleOpenGenerator}>
+								Make a Quote
+							</GenerateQuoteButtonText>
 						</GenerateQuoteButton>
 					</QuoteGeneratorInnerContainer>
 				</QuoteGeneratorContainer>
