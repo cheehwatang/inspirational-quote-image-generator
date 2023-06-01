@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import {
 	ModalCircularProgress,
@@ -33,6 +33,30 @@ export const QuoteGeneratorModal = ({
 	const wiseDevQuote =
 		"The great thing about inspiring quotes is that they pack so much wisdom in so few words.";
 	const wiseDevQuoteAuthor = "- Chris Hughes";
+
+	const [blobUrl, setBlobUrl] = useState<string | null>(null);
+
+	const handleDownload = () => {
+		const link = document.createElement("a");
+		if (typeof blobUrl === "string") {
+			link.href = blobUrl;
+			link.download = "inspirational-quote.png";
+			link.click();
+		}
+	};
+
+	useEffect(() => {
+		if (quoteReceived) {
+			const binaryData = Buffer.from(quoteReceived, "base64");
+			const blob = new Blob([binaryData], { type: "image/png" });
+			const blobUrlGenerated = URL.createObjectURL(blob);
+			setBlobUrl(blobUrlGenerated);
+
+			return () => {
+				URL.revokeObjectURL(blobUrlGenerated);
+			};
+		}
+	}, [quoteReceived]);
 
 	return (
 		<Modal
@@ -71,9 +95,9 @@ export const QuoteGeneratorModal = ({
 									See a preview:
 								</QuoteGeneratorSubtitle>
 								<ImageBlobContainer>
-									<ImageBlob />
+									<ImageBlob quoteReceived={quoteReceived} blobUrl={blobUrl} />
 								</ImageBlobContainer>
-								<AnimatedDownloadButton />
+								<AnimatedDownloadButton handleDownload={handleDownload} />
 							</>
 						)}
 					</QuoteGeneratorModalInnerContainer>

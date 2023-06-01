@@ -8,9 +8,15 @@ import {
 	DownloadQuoteCardContainerText,
 } from "./AnimationElements";
 
-export const AnimatedDownloadButton = () => {
+interface AnimatedDownloadButtonProps {
+	handleDownload: () => void;
+}
+
+export const AnimatedDownloadButton = ({
+	handleDownload,
+}: AnimatedDownloadButtonProps) => {
 	return (
-		<DownloadQuoteCardContainer>
+		<DownloadQuoteCardContainer onClick={handleDownload}>
 			<CenteredLottie loop animationData={lottieJson} play />
 			<DownloadQuoteCardContainerText>
 				Download your quote card
