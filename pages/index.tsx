@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
-import { quotesQueryName } from "@/src/graphql/queries";
+import { generateAQuote, quotesQueryName } from "@/src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 import Head from "next/head";
@@ -24,6 +24,15 @@ import { QuoteGeneratorModal } from "@/components/QuoteGenerator";
 // Assets
 import FlowerLeft from "@/assets/FlowerLeft.png";
 import FlowerRight from "@/assets/FlowerRight.png";
+
+// Interface for AppSync -> Lambda JSON response
+interface GenerateAQuoteData {
+	generateAQuote: {
+		statusCode: number;
+		headers: { [key: string]: string };
+		body: string;
+	};
+}
 
 // Interface for DynamoDB object
 interface UpdateQuoteInfoData {
@@ -94,9 +103,26 @@ export default function Home() {
 		setOpenGenerator(true);
 		setProcessingQuote(true);
 		try {
-			setTimeout(() => {
-				setProcessingQuote(false);
-			}, 1000);
+			const runFunction = "runFunction";
+			const runFunctionStringified = JSON.stringify(runFunction);
+			const response = await API.graphql<GenerateAQuoteData>({
+				query: generateAQuote,
+				authMode: "AWS_IAM",
+				variables: {
+					input: runFunctionStringified,
+				},
+			});
+			const responseStringified = JSON.stringify(response);
+			const responseReStringified = JSON.stringify(responseStringified);
+			const bodyIndex = responseReStringified.indexOf("body=") + 5;
+			const bodyAndBase64 = responseReStringified.substring(bodyIndex);
+			const bodyArray = bodyAndBase64.split(",");
+			const body = bodyArray[0];
+			setQuoteReceived(body);
+
+			setProcessingQuote(false);
+
+			updateQuoteInfo();
 		} catch (error) {
 			console.log("error generating quote:", error);
 			setProcessingQuote(false);
