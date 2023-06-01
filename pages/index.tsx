@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
-import { quotesQueryName } from "@/src/graphql/queries";
+import { generateAQuote, quotesQueryName } from "@/src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 import Head from "next/head";
@@ -19,10 +19,20 @@ import {
 	QuoteGeneratorSubtitle,
 	QuoteGeneratorTitle,
 } from "@/components/QuoteGenerator/QuoteGeneratorElements";
+import { QuoteGeneratorModal } from "@/components/QuoteGenerator";
 
 // Assets
 import FlowerLeft from "@/assets/FlowerLeft.png";
 import FlowerRight from "@/assets/FlowerRight.png";
+
+// Interface for AppSync -> Lambda JSON response
+interface GenerateAQuoteData {
+	generateAQuote: {
+		statusCode: number;
+		headers: { [key: string]: string };
+		body: string;
+	};
+}
 
 // Interface for DynamoDB object
 interface UpdateQuoteInfoData {
@@ -49,7 +59,10 @@ const isGraphQLResultForquotesQueryName = (
 };
 
 export default function Home() {
-	const [numberOfQuotes, setNumberOfQuotes] = useState<Number>(0);
+	const [numberOfQuotes, setNumberOfQuotes] = useState(0);
+	const [openGenerator, setOpenGenerator] = useState(false);
+	const [processingQuote, setProcessingQuote] = useState(false);
+	const [quoteReceived, setQuoteReceived] = useState<String | null>(null);
 
 	// Function to fetch DynamoDB object
 	const updateQuoteInfo = async () => {
@@ -81,6 +94,43 @@ export default function Home() {
 		updateQuoteInfo();
 	}, []);
 
+	const handleCloseGenerator = () => {
+		setOpenGenerator(false);
+		setProcessingQuote(false);
+		setQuoteReceived(null);
+	};
+
+	const handleOpenGenerator = async (event: React.SyntheticEvent) => {
+		event.preventDefault();
+		setOpenGenerator(true);
+		setProcessingQuote(true);
+		try {
+			const runFunction = "runFunction";
+			const runFunctionStringified = JSON.stringify(runFunction);
+			const response = await API.graphql<GenerateAQuoteData>({
+				query: generateAQuote,
+				authMode: "AWS_IAM",
+				variables: {
+					input: runFunctionStringified,
+				},
+			});
+			const responseStringified = JSON.stringify(response);
+			const responseReStringified = JSON.stringify(responseStringified);
+			const bodyIndex = responseReStringified.indexOf("body=") + 5;
+			const bodyAndBase64 = responseReStringified.substring(bodyIndex);
+			const bodyArray = bodyAndBase64.split(",");
+			const body = bodyArray[0];
+			setQuoteReceived(body);
+
+			setProcessingQuote(false);
+
+			updateQuoteInfo();
+		} catch (error) {
+			console.log("error generating quote:", error);
+			setProcessingQuote(false);
+		}
+	};
+
 	return (
 		<>
 			<Head>
@@ -95,6 +145,15 @@ export default function Home() {
 
 			{/* Background */}
 			<GradientBackgroundContainer>
+				<QuoteGeneratorModal
+					open={openGenerator}
+					close={handleCloseGenerator}
+					processingQuote={processingQuote}
+					setProcessingQuote={setProcessingQuote}
+					quoteReceived={quoteReceived}
+					setQuoteReceived={setQuoteReceived}
+				></QuoteGeneratorModal>
+
 				<QuoteGeneratorContainer>
 					<QuoteGeneratorInnerContainer>
 						<QuoteGeneratorTitle>
@@ -112,7 +171,7 @@ export default function Home() {
 							</FooterLink>
 						</QuoteGeneratorSubtitle>
 
-						<GenerateQuoteButton>
+						<GenerateQuoteButton onClick={handleOpenGenerator}>
 							<GenerateQuoteButtonText>Make a Quote</GenerateQuoteButtonText>
 						</GenerateQuoteButton>
 					</QuoteGeneratorInnerContainer>
